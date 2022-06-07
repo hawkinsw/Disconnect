@@ -21,7 +21,7 @@ set(PROJECT_SOURCES
         mainwindow.h
         disconnect.qrc
         mainwindow.ui
-        GameView.cpp
+        controller/GameController.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -62,3 +62,6 @@ set_target_properties(Disconnect PROPERTIES
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(Disconnect)
 endif()
+
+add_custom_target(InitializeGameboard ${CMAKE_CURRENT_SOURCE_DIR}/initialize_gameboard.py ${CMAKE_CURRENT_SOURCE_DIR} DEPENDS mainwindow.cpp)
+add_dependencies(Disconnect InitializeGameboard)
