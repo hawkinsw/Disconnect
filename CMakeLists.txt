@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
-include_directories(include)
+include_directories(include game)
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
@@ -22,6 +22,7 @@ set(PROJECT_SOURCES
         disconnect.qrc
         mainwindow.ui
         controller/GameController.cpp
+        generator/MoveGenerator.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -58,10 +59,11 @@ set_target_properties(Disconnect PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(Disconnect)
 endif()
 
 add_custom_target(InitializeGameboard ${CMAKE_CURRENT_SOURCE_DIR}/initialize_gameboard.py ${CMAKE_CURRENT_SOURCE_DIR} DEPENDS mainwindow.cpp)
 add_dependencies(Disconnect InitializeGameboard)
+
+add_executable(GameBoardUnitTest game/GameBoardUnitTest.cpp game/game.cpp)
