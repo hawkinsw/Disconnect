@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "game.hpp"
+#include "Game.hpp"
 #include <GameController.hpp>
 #include <MoveGenerator.hpp>
 #include <memory>

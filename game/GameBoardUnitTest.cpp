@@ -1,26 +1,106 @@
+#include "Game.hpp"
 #include <iostream>
-#include "game.hpp"
 
-int main() {
+bool simple_right_test(bool debug = false) {
   GameBoard gb{};
+  gb.setPosition(GamePiece::Type::Red, 2, 3);
+  gb.setPosition(GamePiece::Type::Red, 2, 4);
+  gb.setPosition(GamePiece::Type::Red, 2, 5);
+  if (debug) {
+    std::cout << gb << "\n";
+  }
+  auto score{gb.scorePlay(2, 2, RedGamePiece{})};
+  if (score.rightScore() == 3 && score.leftScore() == 0 &&
+      score.downLeftScore() == 0 && score.downScore() == 0 &&
+      score.downRightScore() == 0) {
+    return true;
+  }
+  return false;
+}
 
-  gb.setPosition(GamePiece::Type::Red, 0, 0);
-  gb.setPosition(GamePiece::Type::Red, 1, 1);
-  gb.setPosition(GamePiece::Type::Red, 2, 2);
+bool simple_left_test(bool debug = false) {
+  GameBoard gb{};
+  gb.setPosition(GamePiece::Type::Red, 2, 3);
+  gb.setPosition(GamePiece::Type::Red, 2, 4);
+  gb.setPosition(GamePiece::Type::Red, 2, 5);
+  if (debug) {
+    std::cout << gb << "\n";
+  }
+  auto score{gb.scorePlay(2, 6, RedGamePiece{})};
+  if (score.rightScore() == 0 && score.leftScore() == 3 &&
+      score.downLeftScore() == 0 && score.downScore() == 0 &&
+      score.downRightScore() == 0) {
+    return true;
+  }
+  return false;
+}
+
+bool simple_down_left_test(bool debug = false) {
+  GameBoard gb{};
+  gb.setPosition(GamePiece::Type::Red, 2, 3);
+  gb.setPosition(GamePiece::Type::Red, 1, 2);
+  gb.setPosition(GamePiece::Type::Red, 0, 1);
+  if (debug) {
+    std::cout << gb << "\n";
+  }
+  auto score{gb.scorePlay(3, 4, RedGamePiece{})};
+  if (score.rightScore() == 0 && score.leftScore() == 0 &&
+      score.downLeftScore() == 3 && score.downScore() == 0 &&
+      score.downRightScore() == 0) {
+    return true;
+  }
+  return false;
+}
+
+bool simple_down_test(bool debug = false) {
+  GameBoard gb{};
+  gb.setPosition(GamePiece::Type::Red, 3, 3);
+  gb.setPosition(GamePiece::Type::Red, 2, 3);
+  gb.setPosition(GamePiece::Type::Red, 1, 3);
+  if (debug) {
+    std::cout << gb << "\n";
+  }
+  auto score{gb.scorePlay(4, 3, RedGamePiece{})};
+  if (score.rightScore() == 0 && score.leftScore() == 0 &&
+      score.downLeftScore() == 0 && score.downScore() == 3 &&
+      score.downRightScore() == 0) {
+    return true;
+  }
+  return false;
+}
+
+bool simple_down_right_test(bool debug = false) {
+  GameBoard gb{};
+  gb.setPosition(GamePiece::Type::Red, 3, 3);
   gb.setPosition(GamePiece::Type::Red, 2, 4);
   gb.setPosition(GamePiece::Type::Red, 1, 5);
-  gb.setPosition(GamePiece::Type::Red, 0, 6);
-  gb.setPosition(GamePiece::Type::Red, 3, 0);
-  gb.setPosition(GamePiece::Type::Red, 3, 6);
-  gb.setPosition(GamePiece::Type::Red, 0, 3);
-  gb.setPosition(GamePiece::Type::Red, 1, 3);
-  gb.setPosition(GamePiece::Type::Red, 2, 3);
-  std::cout << gb << "\n";
-  auto scores{gb.scorePlay(3, 3, RedGamePiece{})};
-  std::cout << "left: " << scores[0] << "\n";
-  std::cout << "down_left: " << scores[1] << "\n";
-  std::cout << "down: " << scores[2] << "\n";
-  std::cout << "down_right: " << scores[3] << "\n";
-  std::cout << "right: " << scores[4] << "\n";
-  std::cout << "Done.\n";
+  if (debug) {
+    std::cout << gb << "\n";
+  }
+  auto score{gb.scorePlay(4, 2, RedGamePiece{})};
+  if (score.rightScore() == 0 && score.leftScore() == 0 &&
+      score.downLeftScore() == 0 && score.downScore() == 0 &&
+      score.downRightScore() == 3) {
+    return true;
+  }
+  return false;
+}
+
+#define RUN_TEST(test_name, debug)                                             \
+  do {                                                                         \
+    if (!test_name(debug)) {                                                   \
+      std::cout << #test_name " failed\n";                                     \
+    } else {                                                                   \
+      std::cout << #test_name " succeeded\n";                                  \
+    }                                                                          \
+  } while (false);
+
+int main() {
+  bool debug{false};
+  RUN_TEST(simple_right_test, debug)
+  RUN_TEST(simple_left_test, debug)
+  RUN_TEST(simple_down_left_test, debug)
+  RUN_TEST(simple_down_test, debug)
+  RUN_TEST(simple_down_right_test, debug)
+  return 0;
 }

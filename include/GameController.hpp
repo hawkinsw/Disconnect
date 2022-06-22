@@ -6,7 +6,7 @@
 #include <qpixmap.h>
 #include <string>
 #include <vector>
-#include "game.hpp"
+#include "Game.hpp"
 
 class RenderableGamePiece {
 public:

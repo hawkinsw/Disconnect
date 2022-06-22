@@ -1,4 +1,4 @@
-#include "game.hpp"
+#include "Game.hpp"
 
 std::ostream &operator<<(std::ostream &os, const GameBoard &gb) {
   for (int row{GameBoard::Height - 1}; row >= 0; row--) {
@@ -19,7 +19,7 @@ std::ostream &operator<<(std::ostream &os, const GameBoard &gb) {
   return os;
 }
 
-std::vector<int> GameBoard::scorePlay(int row, int col, const GamePiece &gp) {
+PlayScore GameBoard::scorePlay(int row, int col, const GamePiece &gp) {
   int right{0};
   int left{0};
   int down{0};
@@ -70,5 +70,5 @@ std::vector<int> GameBoard::scorePlay(int row, int col, const GamePiece &gp) {
     }
   }
 
-  return {left, down_left, down, down_right, right};
+  return PlayScore(left, down_left, down, down_right, right);
 }
