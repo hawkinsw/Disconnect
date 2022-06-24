@@ -3,12 +3,6 @@
 # Most flags are configured to match Qt qmake
 # See EMCC_COMMON_LFLAGS in https://github.com/qt/qtbase/blob/dev/mkspecs/wasm-emscripten/qmake.conf
 
-if(NOT DEFINED ENV{EMSDK})
-	message(FATAL_ERROR "Must have EMSDK set in environment variable to compile for Web Assembly.")
-endif()
-
-set(CMAKE_TOOLCHAIN_FILE <path_to_toolchain_file>)
-
 # Activate Embind C/C++ bindings
 # https://emscripten.org/docs/porting/connecting_cpp_and_javascript/embind.html
 add_link_options(--bind) 
@@ -63,7 +57,7 @@ function(link_qt_static target)
     # copy in Qt HTML/JS launch files
     set(APPNAME ${target})
     configure_file("${_qt5Core_install_prefix}/plugins/platforms/wasm_shell.html"
-                   "${target}.html")
+						"${target}.html")
     configure_file("${_qt5Core_install_prefix}/plugins/platforms/qtloader.js"
                    qtloader.js COPYONLY)
     configure_file("${_qt5Core_install_prefix}/plugins/platforms/qtlogo.svg"

@@ -1,10 +1,17 @@
 cmake_minimum_required(VERSION 3.5)
 
-if(EMSCRIPTEN)
-  include(emscripten.cmake)
+if(WebAssemblyBuild)
+	if(NOT DEFINED ENV{EMSDK})
+		message(FATAL_ERROR "Must have EMSDK set in environment variable to compile for Web Assembly.")
+	endif()
+	set(CMAKE_TOOLCHAIN_FILE "$ENV{EMSDK}/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake")
 endif()
 
 project(Disconnect VERSION 0.1 LANGUAGES CXX)
+
+if(WebAssemblyBuild)
+  include(emscripten.cmake)
+endif()
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -72,6 +79,6 @@ add_dependencies(Disconnect InitializeGameboard)
 
 add_executable(GameBoardUnitTest game/GameBoardUnitTest.cpp game/Game.cpp)
 
-if(EMSCRIPTEN)
+if(WebAssemblyBuild)
 	link_qt_static(Disconnect)
 endif()
